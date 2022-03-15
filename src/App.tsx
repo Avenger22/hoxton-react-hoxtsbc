@@ -7,6 +7,7 @@ import LoggedInPage from './Components/LoggedInPage';
 import SignupForm from './Components/SignupForm';
 
 const App = function () {
+
   const [userData, setUserData] = React.useState<User | null>(null);
   const [shouldShowRegisterModal, setShouldShowRegisterModal] = React.useState<boolean>(false)
   const [error, setError] = React.useState(null)
@@ -21,6 +22,7 @@ const App = function () {
   }, [])
 
   const handleLogin = React.useCallback((email, password) => {
+
     setError(null);
 
     return api.handleLogin({ email, password })
@@ -29,6 +31,7 @@ const App = function () {
 
         return setUserData(resp.data);
       })
+      
   }, [api.handleLogin, setUserData, setError])
 
   const toggleRegisterModal = React.useCallback((): void => {
@@ -38,11 +41,15 @@ const App = function () {
   }, [shouldShowRegisterModal, setShouldShowRegisterModal])
 
   return (
+
     <div>
+
       <header>
         <img src='./src/logo.png' />
       </header>
+
       <main>
+        
         {userData ?
           <LoggedInPage userData={userData} />
           :
@@ -51,10 +58,15 @@ const App = function () {
             handleLogin={handleLogin}
           />}
         {error && <p className='error-message'>{error}</p>}
+      
       </main>
+
       <SignupForm isOpen={shouldShowRegisterModal} handleClose={toggleRegisterModal} />
+    
     </div>
+
   );
+
 };
 
 export default App;

@@ -3,37 +3,40 @@ import Button from '../Button';
 import TextField from '../TextField';
 import * as api from '../../utils/api';
 import './style.css';
+
 type State = {
   email: string;
   password: string;
   fullName: string;
 }
-
 interface Props {
   isOpen: boolean;
   handleClose: () => void;
 }
 
 const SignupForm = ({ isOpen, handleClose }: Props) => {
+  
   const [values, setValues] = React.useState<State>({
     email: '',
     password: '',
     fullName: ''
   });
-  const [error, setError] = React.useState<string>('');
 
+  const [error, setError] = React.useState<string>('');
   const getHandleChange = React.useCallback((key: keyof State) => {
 
     return (val: string) => setValues({ ...values, [key]: val });
   }, [setValues, values])
 
   const handleSubmit = React.useCallback(() => {
+
     return api.handleSignUp(values).then((r: any) => {
       if (r.error) return setError(r.error);
 
       // feel free to improve the UX ;)
       handleClose();
     })
+
   }, [values])
 
   const handleCloseModal = React.useCallback((event) => {
@@ -43,6 +46,7 @@ const SignupForm = ({ isOpen, handleClose }: Props) => {
   if (!isOpen) return null;
 
   return (
+
     <div className="SignupForm_modal" onClick={handleCloseModal}>
       <form className='SignupForm_form'>
         <TextField value={values.email} placeholder='Email' handleChange={getHandleChange('email')} />
@@ -53,7 +57,9 @@ const SignupForm = ({ isOpen, handleClose }: Props) => {
         <Button type='submit' text="Register" handleClick={handleSubmit} />
       </form>
     </div>
+
   )
+
 }
 
 export default SignupForm
